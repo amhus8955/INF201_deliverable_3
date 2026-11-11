@@ -3,7 +3,7 @@
  
 
 from __future__ import annotations
- from items import Weapon
+from items import Weapon
  
  
 class Character:
@@ -124,6 +124,92 @@ class Character:
         return (f'Character: {self.name} with {self.hp} HP and '
                 f'{self.damage} damage')
  
+
+class Warrior(Character):
+    """A defensive character that reduces incoming damage with armor."""
+
+    def __init__(self, name: str, hp_max: int = 100, damage: int = 10,
+                 weapon: Weapon | None = None, armor: int = 5) -> None:
+        """
+        Initialise the warrior.
+
+        Parameters
+        ----------
+        name : str
+            The name of the character.
+        hp_max : int, optional
+            Max hit points, by default 100.
+        damage : int, optional
+            Damage dealt without a weapon, by default 10.
+        weapon : Weapon | None, optional
+            Equipped weapon, by default None.
+        armor : int, optional
+            Damage absorbed from each incoming attack, by default 5.
+        """
+        super().__init__(name, hp_max, damage, weapon)
+        self.armor = armor
+
+    def take_damage(self, amount: int) -> None:
+        """
+        Reduce the incoming damage by armor, then take the rest.
+
+        Parameters
+        ----------
+        amount : int
+            Damage before armor.
+        """
+        super().take_damage(max(amount - self.armor, 0))
+
+
+class Mage(Character):
+    """A character that uses mana for double-damage spell attacks."""
+
+    SPELL_COST = 10
+    MANA_RESTORED = 5
+
+    def __init__(self, name: str, hp_max: int = 100, damage: int = 10,
+                 weapon: Weapon | None = None, mana: int = 30,
+                 mana_max: int = 30) -> None:
+        """
+        Initialise the mage.
+
+        Parameters
+        ----------
+        name : str
+            The name of the character.
+        hp_max : int, optional
+            Max hit points, by default 100.
+        damage : int, optional
+            Damage dealt without a weapon, by default 10.
+        weapon : Weapon | None, optional
+            Equipped weapon, by default None.
+        mana : int, optional
+            Current mana, by default 30.
+        mana_max : int, optional
+            Max mana, by default 30.
+        """
+        super().__init__(name, hp_max, damage, weapon)
+        self.mana = mana
+        self.mana_max = mana_max
+
+    def attack(self, target: Character) -> None:
+        """
+        Attack the target.
+
+        With at least 10 mana, cast a spell for double damage (no weapon used).
+        Otherwise attack normally (with the weapon, if any) and restore 5 mana.
+
+        Parameters
+        ----------
+        target : Character
+            The character that is attacked.
+        """
+        if self.mana >= self.SPELL_COST:
+            self.mana -= self.SPELL_COST
+            target.take_damage(2 * self.damage)
+        else:
+            super().attack(target)
+            self.mana = min(self.mana + self.MANA_RESTORED, self.mana_max)
  
 if __name__ == '__main__':
     # Only runs when this file is run directly, not when it is imported.
