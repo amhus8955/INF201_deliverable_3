@@ -1,2 +1,5 @@
 .venv/
 .DS_Store
+*.mov
+*.mp4
+*.html
