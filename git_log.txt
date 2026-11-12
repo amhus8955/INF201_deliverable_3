@@ -1,0 +1,6 @@
+* 9dbed62 - amhus8955, 2026-11-12 : Update notebook
+* 1fd604c - amhus8955, 2026-11-11 : Add Warrior, Mage, Battle and notebook
+* eb4f637 - ArthikaVelnathan, 2026-11-10 : Remove duplicate import of Weapon from items
+* 0efe596 - ArthikaVelnathan, 2026-11-10 : Implement Weapon class with damage rolling
+* d749b05 - ArthikaVelnathan, 2026-11-10 : Implement Dice class for random number generation
+* 61b7ac4 - amhus8955, 2026-11-10 : Initial commit
